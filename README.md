@@ -1,20 +1,10 @@
-# Build a Kubernetes cluster using k3s via Ansible
+# Build a HA-Kubernetes cluster with load balancing and enhanced security using k3s via Ansible
+Ansible Playbooks for K3s cluster with OpenELB as load balancer engine and wireguard for node to node encryption via Ansible.
 
-Author: <https://github.com/itwars>
-
-## K3s Ansible Playbook
-
-Build a Kubernetes cluster using Ansible with k3s. The goal is easily install a Kubernetes cluster on machines running:
-
-- [X] Debian
-- [X] Ubuntu
-- [X] CentOS
-
-on processor architecture:
-
-- [X] x64
-- [X] arm64
-- [X] armhf
+## ToDo
+- [ ] Add OpenELB
+- [ ] Add wireguard for node to node encryption
+- [ ] configure (continuous) testing
 
 ## System requirements
 
@@ -33,21 +23,17 @@ Second, edit `inventory/my-cluster/hosts.ini` to match the system information ga
 
 ```bash
 [master]
-192.16.35.12
+192.16.35.[12:14]
 
 [node]
-192.16.35.[10:11]
+192.16.35.[15:17]
 
 [k3s_cluster:children]
 master
 node
 ```
 
-If multiple hosts are in the master group, the playbook will automatically setup k3s in HA mode with etcd.
-https://rancher.com/docs/k3s/latest/en/installation/ha-embedded/
-This requires at least k3s version 1.19.1
-
-If needed, you can also edit `inventory/my-cluster/group_vars/all.yml` to match your environment.
+You probably need to edit `inventory/my-cluster/group_vars/all.yml` to match your environment.
 
 Start provisioning of the cluster using the following command:
 
@@ -62,3 +48,19 @@ To get access to your **Kubernetes** cluster just
 ```bash
 scp debian@master_ip:~/.kube/config ~/.kube/config
 ```
+
+
+## K3s Ansible Playbook
+
+Build a Kubernetes cluster using Ansible with k3s. The goal is easily install a Kubernetes cluster on machines running:
+
+- [ ] Debian
+- [ ] Ubuntu
+- [ ] Rocky Linux
+
+on processor architecture:
+
+- [ ] x64
+- [ ] arm64
+- [ ] armhf
+
