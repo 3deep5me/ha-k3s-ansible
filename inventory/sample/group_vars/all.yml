@@ -5,6 +5,7 @@ end_lb_ip: 192.168.2.219
 
 #may change this
 k3s_token: "mysupersecuretoken"
+apiserver_endpoint: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['master'][0]) }}"
 
 k3s_version: v1.23.5+k3s1 #at least v1.19.16+k3s1
 ansible_user: debian

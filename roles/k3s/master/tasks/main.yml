@@ -12,19 +12,6 @@
   args:
     warn: false  # The ansible systemd module does not support reset-failed
 
-- name: ansible create directory for OpenELB config
-  file:
-    path: /var/lib/rancher/k3s/server/manifests
-    state: directory
-
-- name: Copy configuration for OpenELB
-  template:
-    src: "openelb.yaml.j2"
-    dest: "/var/lib/rancher/k3s/server/manifests/openelb.yaml"
-    owner: root
-    group: root
-    mode: 0755
-
 #- name: set end_lb_ip/k8s-lb-api-ip in kubeconfig
 #  command: >-
 #    k3s kubectl config set-cluster default
@@ -41,7 +28,7 @@
     creates: "{{ systemd_dir }}/k3s.service"
   args:
     warn: false  # The ansible systemd module does not support transient units
-  
+
 - name: Verification
   block:
     - name: Verify that all nodes actually joined (check k3s-init.service if this fails)
@@ -58,6 +45,22 @@
         name: k3s-init
         state: stopped
       failed_when: false
+
+- name: Copy manifest for OpenELB
+  template:
+    src: "openelb.yaml.j2"
+    dest: "/var/lib/rancher/k3s/server/manifests/openelb.yaml"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy LB configuration for OpenELB
+  template:
+    src: "eip.yaml.j2"
+    dest: "/var/lib/rancher/k3s/server/manifests/eip.yaml"
+    owner: root
+    group: root
+    mode: 0755
 
 - name: Copy K3s service file
   register: k3s_service
