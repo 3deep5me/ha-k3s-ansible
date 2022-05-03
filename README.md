@@ -1,6 +1,12 @@
 # Build a HA-Kubernetes cluster with load balancing and enhanced security using k3s via Ansible
 Ansible Playbooks for K3s cluster with OpenELB as load balancer engine and wireguard for node to node encryption via Ansible.
 
+
+## current information
+you need to wait up to 10 minutes until the cluster is ready
+check this out for lb and stuff:
+https://www.youtube.com/watch?v=9PLw1xalcYA
+
 ## ToDo
 - [ ] Add OpenELB
 - [ ] Add wireguard for node to node encryption

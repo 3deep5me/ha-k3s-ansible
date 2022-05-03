@@ -1098,7 +1098,7 @@ spec:
       containers:
       - args:
         - --api-hosts=:50051
-        - --webhook-port=443
+        - --webhook-port=30443
         command:
         - openelb-manager
         env:
@@ -1114,7 +1114,7 @@ spec:
         imagePullPolicy: IfNotPresent
         name: openelb-manager
         ports:
-        - containerPort: 443
+        - containerPort: 30443
           name: webhook
           protocol: TCP
         readinessProbe:
@@ -1283,3 +1283,13 @@ webhooks:
     resources:
     - eips
   sideEffects: None
+---
+apiVersion: network.kubesphere.io/v1alpha2
+kind: Eip
+metadata:
+    name: eip-{{ start_lb_ip }}-{{ end_lb_ip }}
+spec:
+    address: {{ start_lb_ip }}-{{ end_lb_ip }}
+    protocol: layer2
+    interface: eth0
+    disable: false

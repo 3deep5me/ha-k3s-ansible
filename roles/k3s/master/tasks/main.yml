@@ -45,19 +45,11 @@
         name: k3s-init
         state: stopped
       failed_when: false
-
+#--disable servicelb bei service muss dran
 - name: Copy manifest for OpenELB
   template:
     src: "openelb.yaml.j2"
     dest: "/var/lib/rancher/k3s/server/manifests/openelb.yaml"
-    owner: root
-    group: root
-    mode: 0755
-
-- name: Copy LB configuration for OpenELB
-  template:
-    src: "eip.yaml.j2"
-    dest: "/var/lib/rancher/k3s/server/manifests/eip.yaml"
     owner: root
     group: root
     mode: 0755
@@ -77,6 +69,10 @@
     daemon_reload: yes
     state: restarted
     enabled: yes
+
+#wait until all nodes are ready task 
+
+#patch k8s-service task to lb
 
 - name: Wait for node-token
   wait_for:
